@@ -1,6 +1,7 @@
 PYTHON ?= python3
 CODEX_CONFIG ?= $(HOME)/.codex/config.toml
 CLAUDE_CONFIG ?= $(CURDIR)/.mcp.json
+CLAUDE_USER_CONFIG ?= $(HOME)/.claude.json
 
 .PHONY: install install-codex install-claude install-claude-global uninstall-claude-global install-pipx doctor
 
@@ -31,9 +32,23 @@ uninstall-claude-global:
 	@claude mcp remove --scope user adb_mcp_bridge
 
 doctor:
-	@echo "Claude config: $(CLAUDE_CONFIG)"
-	@echo "Codex config:  $(CODEX_CONFIG)"
-	@echo "adb-mcp-bridge in PATH:"
-	@command -v adb-mcp-bridge || true
-	@echo "adb devices -l:"
-	@adb devices -l || true
+	@echo "Claude user config: $(CLAUDE_USER_CONFIG)"
+	@total=0; success=0; \
+	if [ -f "$(CLAUDE_USER_CONFIG)" ]; then \
+		total=$$((total+1)); \
+		if $(PYTHON) scripts/check_claude_user_mcp.py "$(CLAUDE_USER_CONFIG)"; then success=$$((success+1)); fi; \
+	else \
+		total=$$((total+1)); \
+		echo "  ✗ missing"; \
+	fi; \
+	echo "Codex config:  $(CODEX_CONFIG)"; \
+	total=$$((total+1)); \
+	if [ -f "$(CODEX_CONFIG)" ]; then echo "  ✓ found"; success=$$((success+1)); else echo "  ✗ missing"; fi; \
+	echo "adb-mcp-bridge in PATH:"; \
+	total=$$((total+1)); \
+	if command -v adb-mcp-bridge >/dev/null 2>&1; then echo "  ✓ found"; success=$$((success+1)); else echo "  ✗ missing"; fi; \
+	echo "adb devices -l:"; \
+	total=$$((total+1)); \
+	if adb devices -l >/dev/null 2>&1; then echo "  ✓ ok"; success=$$((success+1)); else echo "  ✗ failed"; fi; \
+	adb devices -l || true; \
+	echo "Summary: $$success/$$total checks passed"
