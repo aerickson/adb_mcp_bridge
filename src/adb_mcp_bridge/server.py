@@ -44,19 +44,7 @@ def _parse_adb_devices(output: str) -> list[tuple[str, str]]:
     return devices
 
 
-def _discover_single_emulator() -> str:
-    proc = subprocess.run(
-        ["adb", "devices", "-l"],
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        timeout=8,
-    )
-    if proc.returncode != 0:
-        err = (proc.stderr or b"").decode(errors="ignore").strip()
-        raise RuntimeError(f"adb devices failed. {err}")
-
-    output = (proc.stdout or b"").decode(errors="ignore")
-    devices = _parse_adb_devices(output)
+def _select_single_emulator(devices: list[tuple[str, str]]) -> str:
     if not devices:
         raise RuntimeError("adb: no devices detected")
     if len(devices) > 1:
@@ -76,15 +64,31 @@ def _discover_single_emulator() -> str:
     return serial
 
 
+def _discover_single_emulator() -> str:
+    proc = subprocess.run(
+        ["adb", "devices", "-l"],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        timeout=8,
+    )
+    if proc.returncode != 0:
+        err = (proc.stderr or b"").decode(errors="ignore").strip()
+        raise RuntimeError(f"adb devices failed. {err}")
+
+    output = (proc.stdout or b"").decode(errors="ignore")
+    devices = _parse_adb_devices(output)
+    return _select_single_emulator(devices)
+
+
 @mcp.tool()
 def take_screenshot(
     *,
     output_dir: str = "./screenshots",
     include_base64: bool = False,
 ) -> ScreenshotResult:
-    \"\"\"
+    """
     Capture a PNG screenshot from an Android emulator via ADB.
-    \"\"\"
+    """
     active_serial = _discover_single_emulator()
     _ensure_device_ready(active_serial)
 
