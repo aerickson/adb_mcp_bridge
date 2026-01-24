@@ -163,6 +163,10 @@ Notes:
 - The active device is auto-selected; exactly one emulator must be connected.
 - Errors are returned if no devices are found, multiple devices are connected, or the device is offline/unauthorized.
 
+Example prompts:
+- `Use the take_screenshot tool.`
+- `Use the take_screenshot tool with output_dir set to ./screenshots and include_base64 false.`
+
 ---
 
 ## Safety model
