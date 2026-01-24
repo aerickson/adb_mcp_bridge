@@ -10,7 +10,6 @@ mcp = FastMCP("adb-mcp-bridge")
 
 
 class ScreenshotResult(TypedDict):
-    serial: str
     path: str
     bytes: int
     timestamp: int
@@ -114,7 +113,6 @@ def take_screenshot(
         b64 = base64.b64encode(proc.stdout).decode("ascii")
 
     return {
-        "serial": active_serial,
         "path": str(path),
         "bytes": path.stat().st_size,
         "timestamp": ts,
