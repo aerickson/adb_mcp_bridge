@@ -41,15 +41,22 @@ Planned (v1.0+):
 ```bash
 git clone https://github.com/aerickson/adb_mcp_bridge.git
 cd adb-mcp-bridge
+make install
+```
+
+This installs the server via pipx and configures Codex and Claude CLI globally.
+
+Manual install (if you don't want to use the Makefile):
+```bash
 pipx install -e .
 ```
+After a manual install, you must configure your MCP client (Codex/Claude CLI) yourself.
 
 ---
 
-## Install MCP configs (Makefile)
+## Configure MCP clients (Makefile)
 
 ```bash
-pipx install -e .
 make install-codex
 make install-claude
 make install-claude-global
