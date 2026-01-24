@@ -182,7 +182,7 @@ Example prompts:
 ## Project status
 
 - **Status:** Early development
-- **Current version:** v1.0 (screenshots only)
+- **Current version:** 1.0.0 (screenshots only)
 - **API stability:** Experimental
 
 ---

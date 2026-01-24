@@ -114,6 +114,23 @@ Capture a PNG screenshot from the active Android emulator.
 - Timeouts on all ADB calls.
 - Structured errors returned to the agent.
 
+### Future config: physical device allowlist
+
+Physical devices remain blocked by default. A future config file (TOML) can allow
+specific physical device serials while always permitting emulators.
+
+Example:
+
+```toml
+[device]
+allowlist = ["0123456789ABCDEF"]
+```
+
+Behavior:
+- Emulators are always allowed.
+- Non-emulator devices are allowed only if their serial is listed in `allowlist`.
+  If the list is missing or empty, no physical devices are allowed.
+
 ---
 
 ## v1.0+ Roadmap
