@@ -48,6 +48,19 @@ uv pip install -e .
 
 ---
 
+## Install MCP configs (Makefile)
+
+```bash
+pipx install -e .
+make install-codex
+make install-claude
+```
+
+Claude Desktop config defaults to `~/Library/Application Support/Claude/claude_desktop_config.json`.
+Override with `CLAUDE_CONFIG=/path/to/config.json`.
+
+---
+
 ## Running tests
 
 ```bash
@@ -113,6 +126,24 @@ Restart Codex and the `take_screenshot` tool will be available.
 - wrapped in a Claude Desktop `.mcpb` extension.
 
 Refer to Claude Desktop MCP documentation for your platform-specific configuration.
+
+---
+
+## Using the MCP tools
+
+Once the MCP server is configured (Codex or Claude Desktop), you can call the
+`take_screenshot` tool. It accepts only keyword arguments:
+
+```json
+{
+  "output_dir": "./screenshots",
+  "include_base64": false
+}
+```
+
+Notes:
+- The active device is auto-selected; exactly one emulator must be connected.
+- Errors are returned if no devices are found, multiple devices are connected, or the device is offline/unauthorized.
 
 ---
 
