@@ -20,6 +20,16 @@ def test_parse_adb_devices_multiple_lines() -> None:
     ]
 
 
+def test_parse_adb_devices_ignores_daemon_lines() -> None:
+    output = (
+        "* daemon not running; starting now at tcp:5037\n"
+        "* daemon started successfully\n"
+        "List of devices attached\n"
+        "emulator-5554 device product:sdk_gphone64_x86_64 model:sdk_gphone64_x86_64\n"
+    )
+    assert server._parse_adb_devices(output) == [("emulator-5554", "device")]
+
+
 def test_select_single_emulator_none() -> None:
     with pytest.raises(RuntimeError, match="no devices detected"):
         server._select_single_emulator([])

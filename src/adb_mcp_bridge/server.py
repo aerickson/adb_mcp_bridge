@@ -34,7 +34,12 @@ def _parse_adb_devices(output: str) -> list[tuple[str, str]]:
     devices: list[tuple[str, str]] = []
     for line in output.splitlines():
         line = line.strip()
-        if not line or line.startswith("List of devices attached"):
+        if (
+            not line
+            or line.startswith("List of devices attached")
+            or line.startswith("* daemon not running")
+            or line.startswith("* daemon started successfully")
+        ):
             continue
         parts = line.split()
         if len(parts) < 2:
