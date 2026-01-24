@@ -1,8 +1,8 @@
 PYTHON ?= python3
 CODEX_CONFIG ?= $(HOME)/.codex/config.toml
-CLAUDE_CONFIG ?= $(HOME)/Library/Application Support/Claude/claude_desktop_config.json
+CLAUDE_CONFIG ?= $(CURDIR)/.mcp.json
 
-.PHONY: install install-codex install-claude install-pipx doctor
+.PHONY: install install-codex install-claude install-claude-global uninstall-claude-global install-pipx doctor
 
 install: install-pipx install-codex install-claude
 
@@ -21,6 +21,12 @@ install-codex:
 
 install-claude:
 	@$(PYTHON) scripts/install_claude_config.py "$(CLAUDE_CONFIG)"
+
+install-claude-global:
+	@claude mcp add-json --scope user adb_mcp_bridge '{"type":"stdio","command":"adb-mcp-bridge","args":[]}'
+
+uninstall-claude-global:
+	@claude mcp remove --scope user adb_mcp_bridge
 
 doctor:
 	@echo "Claude config: $(CLAUDE_CONFIG)"

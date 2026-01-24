@@ -54,10 +54,13 @@ uv pip install -e .
 pipx install -e .
 make install-codex
 make install-claude
+make install-claude-global
 ```
 
-Claude Desktop config defaults to `~/Library/Application Support/Claude/claude_desktop_config.json`.
-Override with `CLAUDE_CONFIG=/path/to/config.json`.
+Claude CLI config defaults to `.mcp.json` in this repo.
+Override with `CLAUDE_CONFIG=/path/to/.mcp.json`. For a user-wide install,
+use `make install-claude-global` (uses `claude mcp add-json --scope user`).
+To remove the global install, run `make uninstall-claude-global`.
 
 ---
 
@@ -129,13 +132,10 @@ Restart Codex and the `take_screenshot` tool will be available.
 
 ---
 
-## Using with Claude Desktop
+## Using with Claude CLI
 
-`adb-mcp-bridge` can be used:
-- directly as a stdio MCP server, or
-- wrapped in a Claude Desktop `.mcpb` extension.
-
-Refer to Claude Desktop MCP documentation for your platform-specific configuration.
+The Claude CLI loads MCP servers from `.mcp.json` in the project root.
+Use `make install-claude` to add this server, then run `claude mcp list` to verify.
 
 ---
 
