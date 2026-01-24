@@ -1,6 +1,8 @@
 import base64
+import importlib.metadata
 import pathlib
 import subprocess
+import sys
 import time
 from typing import Optional, TypedDict
 
@@ -85,6 +87,13 @@ def _discover_single_emulator() -> str:
     return _select_single_emulator(devices)
 
 
+def _read_version() -> Optional[str]:
+    try:
+        return importlib.metadata.version("adb-mcp-bridge")
+    except importlib.metadata.PackageNotFoundError:
+        return None
+
+
 @mcp.tool()
 def take_screenshot(
     *,
@@ -131,6 +140,15 @@ def take_screenshot(
 
 
 def main() -> None:
+    if "--help" in sys.argv or "-h" in sys.argv:
+        print("Usage: adb-mcp-bridge [--version]")
+        return
+    if "--version" in sys.argv:
+        version = _read_version()
+        if version is None:
+            version = "unknown"
+        print(version)
+        return
     mcp.run()
 
 

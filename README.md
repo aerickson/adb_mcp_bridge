@@ -99,6 +99,11 @@ adb-mcp-bridge
 
 The process runs as a **stdio MCP server** and waits for requests from an agent.
 
+You can check the installed version with:
+```bash
+adb-mcp-bridge --version
+```
+
 ---
 
 ## MCP Tool: take_screenshot
