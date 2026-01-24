@@ -180,3 +180,12 @@ All new tools must follow the same safety and structure constraints as v1.0.
 - Failures are deterministic and actionable.
 - The system remains safe even with malformed or adversarial prompts.
 - Adding a second tool does not require architectural changes.
+
+---
+
+## Why MCP (not a skill)
+
+This project is an MCP server (not a prompt/skill wrapper) to provide a structured,
+typed tool interface with deterministic inputs/outputs, timeouts, and clear error
+handling. MCP also isolates ADB access behind explicit tools, reducing the risk of
+arbitrary shell execution while keeping the surface area small and auditable.
