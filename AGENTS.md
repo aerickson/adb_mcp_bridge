@@ -47,7 +47,7 @@ bd sync               # Commit and push changes
 2. **Claim**: Use `bd update <id> --status=in_progress`
 3. **Work**: Implement the task
 4. **Complete**: Use `bd close <id>`
-5. **Sync**: Always run `bd sync` at session end
+5. **Sync**: Coordinate with the user before running `bd sync`
 
 ### Key Concepts
 
@@ -58,7 +58,7 @@ bd sync               # Commit and push changes
 
 ### Session Protocol
 
-**Before ending any session, run this checklist:**
+**Before ending any session, coordinate with the user on this checklist:**
 
 ```bash
 git status              # Check what changed
@@ -81,14 +81,14 @@ git push                # Push to remote
 
 ## Landing the Plane (Session Completion)
 
-**When ending a work session**, you MUST complete ALL steps below. Work is NOT complete until `git push` succeeds.
+**When ending a work session**, coordinate with the user on ALL steps below. The user will perform git and `bd` actions.
 
-**MANDATORY WORKFLOW:**
+**MANDATORY WORKFLOW (user-driven):**
 
 1. **File issues for remaining work** - Create issues for anything that needs follow-up
 2. **Run quality gates** (if code changed) - Tests, linters, builds
 3. **Update issue status** - Close finished work, update in-progress items
-4. **PUSH TO REMOTE** - This is MANDATORY:
+4. **PUSH TO REMOTE** - User-owned:
    ```bash
    git pull --rebase
    bd sync

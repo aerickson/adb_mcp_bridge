@@ -127,4 +127,4 @@ Refer to Claude Desktop MCP documentation for your platform-specific configurati
 
 ## License
 
-TBD
+Mozilla Public License v2.0 (see `LICENSE`).
