@@ -36,14 +36,12 @@ Planned (v1.0+):
 
 ---
 
-## Installation
+## Install the MCP server
 
 ```bash
 git clone https://github.com/aerickson/adb_mcp_bridge.git
 cd adb-mcp-bridge
-uv venv
-source .venv/bin/activate   # Windows: .venv\Scripts\Activate.ps1
-uv sync
+pipx install -e .
 ```
 
 ---
