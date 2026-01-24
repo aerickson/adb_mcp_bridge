@@ -41,9 +41,9 @@ Planned (v1.0+):
 ```bash
 git clone <repo-url>
 cd adb-mcp-bridge
-python3 -m venv .venv
+uv venv
 source .venv/bin/activate   # Windows: .venv\Scripts\Activate.ps1
-pip install -e .
+uv pip install -e .
 ```
 
 ---

@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "adb-mcp-bridge"
+version = "0.1.0"
+description = "Local MCP stdio server for safe ADB access to Android emulators"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+dependencies = ["mcp"]
+
+[project.scripts]
+adb-mcp-bridge = "adb_mcp_bridge.server:main"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
