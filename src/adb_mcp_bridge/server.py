@@ -130,13 +130,15 @@ def take_screenshot(
     if include_base64:
         b64 = base64.b64encode(proc.stdout).decode("ascii")
 
-    return {
+    result: ScreenshotResult = {
         "path": str(path),
         "bytes": path.stat().st_size,
         "timestamp": ts,
         "mime_type": "image/png",
-        "base64_png": b64,
     }
+    if include_base64:
+        result["base64_png"] = b64
+    return result
 
 
 def main() -> None:
