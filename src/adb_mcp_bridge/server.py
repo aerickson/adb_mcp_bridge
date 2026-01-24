@@ -5,6 +5,10 @@ import subprocess
 import sys
 import time
 from typing import Optional, TypedDict
+try:
+    from typing import NotRequired
+except ImportError:  # Python <3.11
+    from typing_extensions import NotRequired
 
 from mcp.server.fastmcp import FastMCP
 
@@ -16,7 +20,7 @@ class ScreenshotResult(TypedDict):
     bytes: int
     timestamp: int
     mime_type: str
-    base64_png: Optional[str]
+    base64_png: NotRequired[Optional[str]]
 
 
 def _ensure_device_ready(serial: str) -> None:
