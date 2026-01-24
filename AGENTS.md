@@ -75,6 +75,8 @@ git push                # Push to remote
 
 - Check `bd ready` at session start to find available work
 - Update status as you work (in_progress → closed)
+- If asked to start work on a beads item, immediately mark it in progress
+- After marking in progress, review the bead and provide a plan of action
 - Create new issues with `bd create` when you discover tasks (always include a description)
 - Use descriptive titles and set appropriate priority/type
 - Always `bd sync` before ending session
