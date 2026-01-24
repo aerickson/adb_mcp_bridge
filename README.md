@@ -29,7 +29,7 @@ Planned (v1.0+):
 
 ## Requirements
 
-- Python 3.9+
+- Python 3.10+
 - Android SDK with `adb` on your PATH
 - At least one running Android emulator
 - An MCP-capable agent (Codex, Claude Desktop, etc.)
