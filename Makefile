@@ -2,7 +2,7 @@ PYTHON ?= python3
 CODEX_CONFIG ?= $(HOME)/.codex/config.toml
 CLAUDE_CONFIG ?= $(HOME)/Library/Application Support/Claude/claude_desktop_config.json
 
-.PHONY: install install-codex install-claude install-pipx
+.PHONY: install install-codex install-claude install-pipx doctor
 
 install: install-pipx install-codex install-claude
 
@@ -21,3 +21,11 @@ install-codex:
 
 install-claude:
 	@$(PYTHON) scripts/install_claude_config.py "$(CLAUDE_CONFIG)"
+
+doctor:
+	@echo "Claude config: $(CLAUDE_CONFIG)"
+	@echo "Codex config:  $(CODEX_CONFIG)"
+	@echo "adb-mcp-bridge in PATH:"
+	@command -v adb-mcp-bridge || true
+	@echo "adb devices -l:"
+	@adb devices -l || true

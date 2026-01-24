@@ -61,6 +61,16 @@ Override with `CLAUDE_CONFIG=/path/to/config.json`.
 
 ---
 
+## Debugging setup
+
+```bash
+make doctor
+```
+
+This prints the config paths, resolves `adb-mcp-bridge` from your PATH, and shows `adb devices -l`.
+
+---
+
 ## Running tests
 
 ```bash
