@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "adb_mcp_bridge": {
+      "type": "stdio",
+      "command": "adb-mcp-bridge",
+      "args": []
+    }
+  }
+}

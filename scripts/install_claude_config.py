@@ -42,7 +42,7 @@ def main(config_path: str) -> int:
         args=[],
     )
     path.write_text(json.dumps(config, indent=2) + "\n", encoding="utf-8")
-    print(f"Updated Claude Desktop MCP config: {path}")
+    print(f"Updated Claude CLI MCP config: {path}")
     return 0
 
 

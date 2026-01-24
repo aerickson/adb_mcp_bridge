@@ -32,7 +32,7 @@ Planned (v1.0+):
 - Python 3.10+
 - Android SDK with `adb` on your PATH
 - At least one running Android emulator
-- An MCP-capable agent (Codex, Claude Desktop, etc.)
+- An MCP-capable agent (Codex, Claude CLI, etc.)
 
 ---
 
@@ -149,7 +149,7 @@ Use `make install-claude` to add this server, then run `claude mcp list` to veri
 
 ## Using the MCP tools
 
-Once the MCP server is configured (Codex or Claude Desktop), you can call the
+Once the MCP server is configured (Codex or Claude CLI), you can call the
 `take_screenshot` tool. It accepts only keyword arguments:
 
 ```json

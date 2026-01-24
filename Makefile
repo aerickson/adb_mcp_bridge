@@ -5,7 +5,7 @@ CLAUDE_USER_CONFIG ?= $(HOME)/.claude.json
 
 .PHONY: install install-codex install-claude install-claude-global uninstall-claude-global install-pipx doctor
 
-install: install-pipx install-codex install-claude
+install: install-pipx install-codex install-claude-global
 
 install-pipx:
 	@pipx install -e .
