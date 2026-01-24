@@ -144,6 +144,14 @@ Behavior:
 - Per-device locking to prevent concurrent command conflicts.
 - Optional session abstraction per device.
 
+## v1.1 (proposed)
+
+Focus: multi-device handling and explicit selection, while keeping emulator-first safety.
+
+- Add multi-device scaffolding to represent and track more than one connected device.
+- Add `list_devices` and `select_device(serial)` tools; `take_screenshot` uses the selected device.
+- Add a TOML config allowlist for physical device serials; emulators remain always allowed.
+
 ---
 
 ### Expanded toolset
