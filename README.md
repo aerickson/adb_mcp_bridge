@@ -36,7 +36,7 @@ Planned (v1.0+):
 
 ---
 
-## Quick start (Makefile)
+## Quick start
 
 ```bash
 git clone https://github.com/aerickson/adb_mcp_bridge.git
@@ -55,21 +55,19 @@ Install the server:
 pipx install -e .
 ```
 
-Configure MCP clients (Makefile):
+Configure MCP clients:
 ```bash
 make install-codex
-make install-claude
 make install-claude-global
 ```
 
 If you skip the Makefile, configure your MCP client (Codex/Claude CLI) manually.
 
 Notes:
-- `make install-claude` writes `.mcp.json` in the current repo; override with `CLAUDE_CONFIG=/path/to/.mcp.json`.
 - `make install-claude-global` installs user-wide; remove with `make uninstall-claude-global`.
 - `make install` always refreshes the pipx install (`pipx install -e . --force`).
 
-For a project-local install in another repo (without this Makefile), run:
+For a project-local install in another repo (creates `.mcp.json` in that repo), run:
 
 ```bash
 claude mcp add-json --scope project adb_mcp_bridge '{"type":"stdio","command":"adb-mcp-bridge","args":[]}'
