@@ -51,6 +51,16 @@ def test_select_single_emulator_unauthorized() -> None:
         server._select_single_emulator([("emulator-5554", "unauthorized")])
 
 
+def test_parse_adb_devices_no_permissions_state() -> None:
+    output = "0123456789ABCDEF no permissions (user in plugdev group)\n"
+    assert server._parse_adb_devices(output) == [("0123456789ABCDEF", "no_permissions")]
+
+
+def test_select_single_emulator_no_permissions() -> None:
+    with pytest.raises(RuntimeError, match="no permissions"):
+        server._select_single_emulator([("0123456789ABCDEF", "no_permissions")])
+
+
 def test_select_single_emulator_unexpected_state() -> None:
     with pytest.raises(RuntimeError, match="unexpected state"):
         server._select_single_emulator([("emulator-5554", "bootloader")])

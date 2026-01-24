@@ -47,6 +47,8 @@ def _parse_adb_devices(output: str) -> list[tuple[str, str]]:
         if len(parts) < 2:
             continue
         serial, state = parts[0], parts[1]
+        if state == "no" and len(parts) >= 3 and parts[2] == "permissions":
+            state = "no_permissions"
         devices.append((serial, state))
     return devices
 
@@ -63,6 +65,8 @@ def _select_single_emulator(devices: list[tuple[str, str]]) -> str:
         raise RuntimeError(f"adb: device offline (serial={serial})")
     if state == "unauthorized":
         raise RuntimeError(f"adb: device unauthorized (serial={serial})")
+    if state == "no_permissions":
+        raise RuntimeError(f"adb: device has no permissions (serial={serial})")
     if state != "device":
         raise RuntimeError(f"adb: device in unexpected state (state={state}, serial={serial})")
     if not serial.startswith("emulator-"):
