@@ -39,11 +39,11 @@ Planned (v1.0+):
 ## Installation
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/aerickson/adb_mcp_bridge.git
 cd adb-mcp-bridge
 uv venv
 source .venv/bin/activate   # Windows: .venv\Scripts\Activate.ps1
-uv pip install -e .
+uv sync
 ```
 
 ---
