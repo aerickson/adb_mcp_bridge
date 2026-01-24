@@ -39,6 +39,8 @@ bd update <id> --status=in_progress
 bd close <id> --reason="Completed"
 bd close <id1> <id2>  # Close multiple issues at once
 bd sync               # Commit and push changes
+#
+# Use --no-daemon with all bd commands in automated sessions.
 ```
 
 ### Workflow Pattern
