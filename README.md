@@ -64,13 +64,10 @@ make install-claude-global
 
 If you skip the Makefile, configure your MCP client (Codex/Claude CLI) manually.
 
-Claude CLI config defaults to `.mcp.json` in this repo.
-Override with `CLAUDE_CONFIG=/path/to/.mcp.json`. For a user-wide install,
-use `make install-claude-global` (uses `claude mcp add-json --scope user`).
-To remove the global install, run `make uninstall-claude-global`.
-
-Note: `make install-claude` only affects the repo where you run it.
-Note: `make install` always refreshes the pipx install (`pipx install -e . --force`).
+Notes:
+- `make install-claude` writes `.mcp.json` in the current repo; override with `CLAUDE_CONFIG=/path/to/.mcp.json`.
+- `make install-claude-global` installs user-wide; remove with `make uninstall-claude-global`.
+- `make install` always refreshes the pipx install (`pipx install -e . --force`).
 
 For a project-local install in another repo (without this Makefile), run:
 
