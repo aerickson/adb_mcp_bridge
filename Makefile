@@ -21,6 +21,8 @@ install-codex:
 
 install-claude:
 	@$(PYTHON) scripts/install_claude_config.py "$(CLAUDE_CONFIG)"
+	@echo "To install for another repo, run:"
+	@echo "  claude mcp add-json --scope project adb_mcp_bridge '{\"type\":\"stdio\",\"command\":\"adb-mcp-bridge\",\"args\":[]}'"
 
 install-claude-global:
 	@claude mcp add-json --scope user adb_mcp_bridge '{"type":"stdio","command":"adb-mcp-bridge","args":[]}'
