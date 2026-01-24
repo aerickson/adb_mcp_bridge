@@ -48,6 +48,15 @@ uv pip install -e .
 
 ---
 
+## Running tests
+
+```bash
+uv sync --extra dev
+uv run pytest
+```
+
+---
+
 ## Running the MCP server
 
 ```bash
