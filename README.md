@@ -62,6 +62,14 @@ Override with `CLAUDE_CONFIG=/path/to/.mcp.json`. For a user-wide install,
 use `make install-claude-global` (uses `claude mcp add-json --scope user`).
 To remove the global install, run `make uninstall-claude-global`.
 
+Note: `make install-claude` only affects the repo where you run it.
+
+For a project-local install in another repo (without this Makefile), run:
+
+```bash
+claude mcp add-json --scope project adb_mcp_bridge '{"type":"stdio","command":"adb-mcp-bridge","args":[]}'
+```
+
 ---
 
 ## Debugging setup
