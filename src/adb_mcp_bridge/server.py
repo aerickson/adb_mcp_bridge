@@ -31,6 +31,52 @@ def _ensure_device_ready(serial: str) -> None:
         raise RuntimeError(f"adb device not ready (state={state}). {err}")
 
 
+def _parse_adb_devices(output: str) -> list[tuple[str, str]]:
+    devices: list[tuple[str, str]] = []
+    for line in output.splitlines():
+        line = line.strip()
+        if not line or line.startswith("List of devices attached"):
+            continue
+        parts = line.split()
+        if len(parts) < 2:
+            continue
+        serial, state = parts[0], parts[1]
+        devices.append((serial, state))
+    return devices
+
+
+def _discover_single_emulator() -> str:
+    proc = subprocess.run(
+        ["adb", "devices", "-l"],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        timeout=8,
+    )
+    if proc.returncode != 0:
+        err = (proc.stderr or b"").decode(errors="ignore").strip()
+        raise RuntimeError(f"adb devices failed. {err}")
+
+    output = (proc.stdout or b"").decode(errors="ignore")
+    devices = _parse_adb_devices(output)
+    if not devices:
+        raise RuntimeError("adb: no devices detected")
+    if len(devices) > 1:
+        serials = ", ".join(serial for serial, _ in devices)
+        raise RuntimeError(f"adb: multiple devices detected ({serials})")
+
+    serial, state = devices[0]
+    if state == "offline":
+        raise RuntimeError(f"adb: device offline (serial={serial})")
+    if state == "unauthorized":
+        raise RuntimeError(f"adb: device unauthorized (serial={serial})")
+    if state != "device":
+        raise RuntimeError(f"adb: device in unexpected state (state={state}, serial={serial})")
+    if not serial.startswith("emulator-"):
+        raise RuntimeError(f"adb: non-emulator device detected (serial={serial})")
+
+    return serial
+
+
 @mcp.tool()
 def take_screenshot(
     serial: str,
@@ -40,18 +86,21 @@ def take_screenshot(
     \"\"\"
     Capture a PNG screenshot from an Android emulator via ADB.
     \"\"\"
-    if not serial.startswith("emulator-"):
-        raise ValueError("Only emulator-* serials are allowed by default")
+    active_serial = _discover_single_emulator()
+    if serial != active_serial:
+        raise ValueError(
+            f"Serial does not match active emulator (serial={serial}, active={active_serial})"
+        )
 
-    _ensure_device_ready(serial)
+    _ensure_device_ready(active_serial)
 
     out_dir = pathlib.Path(output_dir).expanduser()
     out_dir.mkdir(parents=True, exist_ok=True)
 
     ts = int(time.time())
-    path = out_dir / f"screenshot_{serial}_{ts}.png"
+    path = out_dir / f"screenshot_{active_serial}_{ts}.png"
 
-    cmd = ["adb", "-s", serial, "exec-out", "screencap", "-p"]
+    cmd = ["adb", "-s", active_serial, "exec-out", "screencap", "-p"]
     proc = subprocess.run(
         cmd,
         stdout=subprocess.PIPE,
