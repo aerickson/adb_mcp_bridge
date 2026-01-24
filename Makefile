@@ -8,12 +8,20 @@ CLAUDE_USER_CONFIG ?= $(HOME)/.claude.json
 install: install-pipx install-codex install-claude-global
 
 install-pipx:
-	@pipx install -e .
+	@if command -v adb-mcp-bridge >/dev/null 2>&1; then \
+		echo "pipx: adb-mcp-bridge already on PATH."; \
+	else \
+		pipx install -e .; \
+	fi
 
 install-codex:
-	@mkdir -p "$(dir $(CODEX_CONFIG))"
-	@touch "$(CODEX_CONFIG)"
-	@if grep -q '^\[mcp_servers\.adb_mcp_bridge\]' "$(CODEX_CONFIG)"; then \
+	@if [ -f "$(CODEX_CONFIG)" ]; then \
+		:; \
+	else \
+		mkdir -p "$(dir $(CODEX_CONFIG))"; \
+		touch "$(CODEX_CONFIG)"; \
+	fi; \
+	if grep -q '^\[mcp_servers\.adb_mcp_bridge\]' "$(CODEX_CONFIG)" 2>/dev/null; then \
 		echo "Codex config already contains adb_mcp_bridge entry."; \
 	else \
 		printf '\n[mcp_servers.adb_mcp_bridge]\ncommand = "adb-mcp-bridge"\nargs = []\nstartup_timeout_sec = 20\ntool_timeout_sec = 60\n' >> "$(CODEX_CONFIG)"; \
@@ -26,7 +34,16 @@ install-claude:
 	@echo "  claude mcp add-json --scope project adb_mcp_bridge '{\"type\":\"stdio\",\"command\":\"adb-mcp-bridge\",\"args\":[]}'"
 
 install-claude-global:
-	@claude mcp add-json --scope user adb_mcp_bridge '{"type":"stdio","command":"adb-mcp-bridge","args":[]}'
+	@if [ -f "$(CLAUDE_USER_CONFIG)" ] && $(PYTHON) scripts/check_claude_user_mcp.py "$(CLAUDE_USER_CONFIG)" >/dev/null 2>&1; then \
+		echo "Claude CLI: adb_mcp_bridge already exists in user config."; \
+	else \
+		claude mcp add-json --scope user adb_mcp_bridge '{"type":"stdio","command":"adb-mcp-bridge","args":[]}'; \
+		if [ -f "$(CLAUDE_USER_CONFIG)" ] && $(PYTHON) scripts/check_claude_user_mcp.py "$(CLAUDE_USER_CONFIG)" >/dev/null 2>&1; then \
+			echo "Claude CLI: adb_mcp_bridge installed in user config."; \
+		else \
+			exit 1; \
+		fi; \
+	fi
 
 uninstall-claude-global:
 	@claude mcp remove --scope user adb_mcp_bridge
