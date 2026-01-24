@@ -79,7 +79,7 @@ def _discover_single_emulator() -> str:
 
 @mcp.tool()
 def take_screenshot(
-    serial: str,
+    *,
     output_dir: str = "./screenshots",
     include_base64: bool = False,
 ) -> ScreenshotResult:
@@ -87,11 +87,6 @@ def take_screenshot(
     Capture a PNG screenshot from an Android emulator via ADB.
     \"\"\"
     active_serial = _discover_single_emulator()
-    if serial != active_serial:
-        raise ValueError(
-            f"Serial does not match active emulator (serial={serial}, active={active_serial})"
-        )
-
     _ensure_device_ready(active_serial)
 
     out_dir = pathlib.Path(output_dir).expanduser()
@@ -119,7 +114,7 @@ def take_screenshot(
         b64 = base64.b64encode(proc.stdout).decode("ascii")
 
     return {
-        "serial": serial,
+        "serial": active_serial,
         "path": str(path),
         "bytes": path.stat().st_size,
         "timestamp": ts,
