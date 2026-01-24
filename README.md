@@ -63,6 +63,7 @@ use `make install-claude-global` (uses `claude mcp add-json --scope user`).
 To remove the global install, run `make uninstall-claude-global`.
 
 Note: `make install-claude` only affects the repo where you run it.
+Note: `make install` always refreshes the pipx install (`pipx install -e . --force`).
 
 For a project-local install in another repo (without this Makefile), run:
 

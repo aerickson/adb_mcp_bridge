@@ -8,11 +8,7 @@ CLAUDE_USER_CONFIG ?= $(HOME)/.claude.json
 install: install-pipx install-codex install-claude-global
 
 install-pipx:
-	@if command -v adb-mcp-bridge >/dev/null 2>&1; then \
-		echo "pipx: adb-mcp-bridge already on PATH."; \
-	else \
-		pipx install -e .; \
-	fi
+	@pipx install -e . --force
 
 install-codex:
 	@if [ -f "$(CODEX_CONFIG)" ]; then \
