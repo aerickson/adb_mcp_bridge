@@ -12,13 +12,15 @@ access, and all device state is managed by the bridge, not the model.
 ## Features
 
 ### v1.0
+
 - Take screenshots from a running Android emulator
 - Single-device support
 - Emulator-only enforcement (`emulator-*`)
 - Structured MCP tool interface
 - Safe by default (no arbitrary `adb shell`)
 
-Planned (v1.0+):
+### Planned (v1.0+):
+
 - Multiple device support
 - UI interaction (tap, swipe, input)
 - UI inspection (uiautomator dumps)
@@ -51,11 +53,13 @@ This installs the server via pipx and configures Codex and Claude CLI globally.
 ## Manual setup
 
 Install the server:
+
 ```bash
 pipx install -e .
 ```
 
 Configure MCP clients:
+
 ```bash
 make install-codex
 make install-claude-global
@@ -64,6 +68,7 @@ make install-claude-global
 If you skip the Makefile, configure your MCP client (Codex/Claude CLI) manually.
 
 Notes:
+
 - `make install-claude-global` installs user-wide; remove with `make uninstall-claude-global`.
 - `make install` always refreshes the pipx install (`pipx install -e . --force`).
 
@@ -114,10 +119,12 @@ adb-mcp-bridge --version
 Capture a PNG screenshot from the active Android emulator.
 
 **Inputs**
+
 - `output_dir` (optional, default `./screenshots`)
 - `include_base64` (optional, default `false`)
 
 **Outputs**
+
 - `path` – filesystem path to the PNG
 - `bytes` – file size
 - `timestamp` – unix timestamp
@@ -125,6 +132,7 @@ Capture a PNG screenshot from the active Android emulator.
 - `base64_png` – optional base64 image data
 
 The tool fails if:
+
 - no device is available,
 - more than one device is connected,
 - the device is not an emulator,
@@ -168,6 +176,7 @@ Once the MCP server is configured (Codex or Claude CLI), you can call the
 ```
 
 Notes:
+
 - The active device is auto-selected; exactly one emulator must be connected.
 - Errors are returned if no devices are found, multiple devices are connected, or the device is offline/unauthorized.
 
